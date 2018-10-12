@@ -1,25 +1,6 @@
 import os
 import re
 
-text = """ ITEM 1 First match
-
-ITEM 2.
-
-
- 2321ITEMS 1.2112
-    AND 2.  
-BUSINESS AND PROPERTIES
-
-ITEM 1A.
-ITEM 1 Second match
-
-ITEM 2.
-
-ITEM 1 Third match
-
-ITEM 2. """
-
-
 # path from where to get the txt files
 saved_path = "E:/Thesis stuff/10k abbot/python/10ktxt/"
 
