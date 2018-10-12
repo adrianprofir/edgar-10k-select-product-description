@@ -1,6 +1,6 @@
 # edgar-10k-select-product-description
 
-# Current success rate (sample 696)=  84.33%
+# Current success rate (sample 1000)=  94.2%
 
 This project will allow you to:
   1) Remove html tags from 10-ks
