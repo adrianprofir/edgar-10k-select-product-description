@@ -13,9 +13,10 @@ save_path = "E:/Thesis stuff/10k_files/10ktxt/"
 # get a list of all the items in that specific folder and put it in a variable
 list_10k = os.listdir(tenk_path)
 
+
 def _process_text(text):
     """
-        Preprocess Text
+        Pre-process Text
     """
     text = unicodedata.normalize("NFKD", text)  # Normalize
     text = '\n'.join(text.splitlines())  # Let python take care of unicode break lines
@@ -41,7 +42,7 @@ def _process_text(text):
     # Reformat
     text = text.replace('\n', '\n\n')  # Reformat by additional breakline
 
-    soup = BeautifulSoup(inside_txt_content, "html.parser")
+    soup = BeautifulSoup(text, "html.parser")
     text = soup.get_text("\n")
 
     # Convert to upper
@@ -59,6 +60,9 @@ def _process_text(text):
     text = re.sub("(ITEM\s3\W)", "ITEM 3.", text)
     text = re.sub("(ITEMS\s1\W)", "ITEM XX.", text)
 
+    # remove empty lines
+    text = re.sub(r'(\n\s)', '', text)
+
     return text
 
 
@@ -72,7 +76,7 @@ for name in list_10k:
     try:
         inside_cleaned = _process_text(inside_txt_content)
     except MemoryError:
-        error_log = open("error_log.txt", "w+", encoding='utf-8')
+        error_log = open("error_log.txt", "a", encoding='utf-8')
         error_log.write("\n" + name)
         error_log.close()
         print("ERROR IN " + name)
