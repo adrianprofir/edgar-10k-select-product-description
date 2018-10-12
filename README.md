@@ -1,5 +1,7 @@
 # edgar-10k-select-product-description
 
+# Current success rate (sample 696)=  90.6%
+
 This project will allow you to:
   1) Remove html tags from 10-ks
   2) Create keywords
