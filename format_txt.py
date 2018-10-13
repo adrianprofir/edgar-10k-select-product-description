@@ -4,15 +4,14 @@ import unicodedata
 
 from bs4 import BeautifulSoup
 
-# path from where to get the txt files
-tenk_path = "E:/Thesis stuff/10k_files/10k/"
+# path from where to get the txt files D:\10Ks\2 download
+tenk_path = "D:/10Ks/2 download/"
 
 # path to where to save the parsed html code in the txt files
-save_path = "E:/Thesis stuff/10k_files/10ktxt/"
+save_path = "D:/10Ks/2_download/"
 
 # get a list of all the items in that specific folder and put it in a variable
 list_10k = os.listdir(tenk_path)
-
 
 def _process_text(text):
     """
@@ -48,26 +47,38 @@ def _process_text(text):
     # Convert to upper
     text = text.upper()  # Convert to upper
 
-    # Some 10ks number their items with "ONE", "TWO" etc, replace that so we get consistency
-    text = text.replace("ITEM ONE", "ITEM 1.")
-    text = text.replace("ITEM TWO", "ITEM 2.")
-
-    # make the ITEM 1 and ITEM 2 standard, meaning with a "."
-    text = re.sub("(ITEM\s1\W)", "ITEM 1.", text)
-    text = re.sub("(ITEM\s2\W)", "ITEM 2.", text)
-
-    # some 10ks group together ITEM 1 and 2, therefore: change the keyword to something different
-    text = re.sub("(ITEM\s3\W)", "ITEM 3.", text)
-    text = re.sub("(ITEMS\s1\W)", "ITEM XX.", text)
+    text = re.sub(r'(\.)', '', text)
 
     # remove empty lines
     text = re.sub(r'(\n\s)', '', text)
+
+    # make the ITEM 1A end with a dot:
+    text = text.replace("ITEM 1A", " ITEM 1A. ")
+    text = re.sub(r'(ITEM\s1A)', 'ITEM 1A. ', text)
+
+    # Some 10ks number their items with "ONE", "TWO" etc, replace that so we get consistency
+    text = text.replace("ITEM ONE", " ITEM 1. ")
+    text = text.replace("ITEM TWO", " ITEM 2. ")
+
+    # Some 10ks number the items with roman numbers
+    text = text.replace("ITEM I", "ITEM 1.")
+    text = text.replace("ITEM II", "ITEM 2.")
+    text = text.replace("ITEM III", "ITEM 3.")
+
+    # make the ITEM 1 and ITEM 2 standard, meaning with a "."
+    text = re.sub("(ITEM\s1\W)", " ITEM 1. ", text)
+    text = re.sub("(ITEM\s2\W)", " ITEM 2. ", text)
+
+    # some 10ks group together ITEM 1 and 2, therefore: change the keyword to something different
+    text = re.sub("(ITEM\s3\W)", " ITEM 3. ", text)
+    text = re.sub("(ITEMS\s1\W)", " ITEM XX. ", text)
 
     return text
 
 
 # loop that does the opening, parsing and saving
 for name in list_10k:
+
     # open each txt file found in the folder tenk_path
     inside_txt = open(tenk_path + name ,"r+", encoding="utf-8")
     inside_txt_content = inside_txt.read()
